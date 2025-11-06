@@ -8,11 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks.dataset.open = String(isOpen);
     };
 
-    setNavState(false);
-
-    if (window.innerWidth > 780) {
-      setNavState(true);
-    }
+    setNavState(window.innerWidth > 780);
 
     navToggle.addEventListener('click', () => {
       const expanded = navToggle.getAttribute('aria-expanded') === 'true';
@@ -43,6 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const animatedSections = document.querySelectorAll('[data-animate]');
   if (animatedSections.length) {
+    animatedSections.forEach((element) => {
+      const delay = element.dataset.animateDelay;
+      if (delay) {
+        element.style.transitionDelay = `${delay}ms`;
+      }
+    });
+
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(
         (entries) => {
